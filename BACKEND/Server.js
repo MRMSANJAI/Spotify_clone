@@ -1,19 +1,23 @@
 import express from 'express';
 import cors from 'cors';
-import 'dotenv/config'
+import 'dotenv/config';
+import songRouter from './src/routes/songRoute.js'; 
+import connectDB from './src/Config/mongodb.js';
+import connectCloudinary from './src/Config/cloudinary.js';
 
-//app config
+// App config
 const app = express();
-const port= process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
+connectDB();
+connectCloudinary();
 
-
-
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//initializing routes
+// Routes
+app.use('/api/song', songRouter);
 
-app.get('/',(req,res)=>res.send("API WORKING"))
+app.get('/', (req, res) => res.send('API WORKING'));
 
-app.listen(port,()=>console.log(`Server started on ${port}`))
+app.listen(port, () => console.log(`Server started on ${port}`));
